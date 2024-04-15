@@ -6,9 +6,9 @@ This project is a team effort by three individuals at Holberton Coding School. T
 
 ## Authors
 
-- Nissel Sanchez ([GitHub](https://github.com/niniisg))
-- Luis Marrero ([GitHub](https://github.com/Luismarrer))
-- Emmanuel Torres ([GitHub](https://github.com/Emahnny))
+- ([Nissel Sanchez](https://github.com/niniisg))
+- ([Luis Marrero](https://github.com/Luismarrer))
+- ([Emmanuel Torres](https://github.com/Emahnny))
 
 ## Tasks
 
