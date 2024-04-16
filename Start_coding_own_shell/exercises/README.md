@@ -12,4 +12,7 @@ Most of these exercises are from "Everything you need to know to start coding yo
 ## List of Exercises
 
 - `ppid.c`: This exercise demonstrates how to retrieve and print the parent process ID (PPID) using the `getppid()` function.
+- `print_max_pid.sh`: This script prints the maximum value that a process ID (PID) can be on this Linux system.
+It reads the value from `/proc/sys/kernel/pid_max` and displays it, providing insight into system limits for PID values.
+
 
