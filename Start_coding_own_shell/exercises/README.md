@@ -19,4 +19,10 @@ The program iterates over the argument vector (`av`), which is an array of strin
 and prints each argument until it reaches the `NULL` terminator that marks the end of the array.
 This example is particularly useful for understanding how to process command-line arguments in programs where the number of
 arguments is not predetermined.
+- `prompt.c`: This program continuously prompts the user with a "$ " symbol,
+waits for the user to enter a command, and then prints that command on the next line.
+It utilizes `getline()` to read an entire line from stdin, handling dynamic input sizes automatically.
+The loop continues indefinitely until an End-of-File (EOF) condition is encountered
+(typically triggered by Ctrl+D on the keyboard), at which point the program cleans up and exits.
+This exercise is crucial for understanding user input handling and dynamic memory management in C programming.
 
