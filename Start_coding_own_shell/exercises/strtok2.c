@@ -5,7 +5,9 @@
 
 /**
  * split_strings - Splits a string into words based on specified delimiters.
+ *
  * @input: The string to split.
+ *
  * @delims: A string containing the delimiter characters.
  *
  * Return: A dynamically allocated array of words,
