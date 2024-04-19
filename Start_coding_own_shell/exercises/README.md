@@ -35,4 +35,14 @@ This example is essential for understanding the basics of string tokenization in
 into an array of words based on specified delimiters.
 It showcases dynamic memory management and the use of `strtok` within a user-defined function context.
 
-
+### Exercise: fork + wait + execve
+- `fwe.c`: This exercise demonstrates advanced process management where the `ls -l /tmp`
+command is executed in five separate child processes, each created sequentially by a single parent process.
+The parent process ensures it waits for the completion of one child before initiating the next, effectively
+managing child processes without overlapping executions.
+This example not only illustrates the use of `fork()` to spawn new processes but also integrates `execve()`
+to execute a system command within each child.
+Additionally, it uses `wait()` to synchronize the termination of child processes with the creation of new ones,
+thus avoiding the creation of zombie processes and ensuring that system resources are managed efficiently.
+This program provides practical insights into process creation, execution, and synchronization
+within the context of Unix-like systems programming.
