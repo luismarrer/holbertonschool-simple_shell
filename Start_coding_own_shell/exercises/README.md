@@ -46,3 +46,19 @@ Additionally, it uses `wait()` to synchronize the termination of child processes
 thus avoiding the creation of zombie processes and ensuring that system resources are managed efficiently.
 This program provides practical insights into process creation, execution, and synchronization
 within the context of Unix-like systems programming.
+
+### Exercise: super simple shell
+- `shell.c`: This program is a simple implementation of a Unix-like shell
+that can execute commands using their full paths without any arguments.
+The shell runs in a continuous loop, displaying a prompt `#cisfun$`
+to the user and waiting for command input.
+Upon receiving a command, the shell splits the command string into tokens
+to separate the command from its potential arguments,
+though this version only executes the command without any arguments.
+The shell utilizes `fork()` to create a child process for command execution and `execve()`
+to run the command in the child process, using the system's environment variables.
+After executing the command, the shell waits for the process to finish using `wait()`,
+ensuring all resources are properly managed and no zombie processes are left.
+This implementation is particularly useful for understanding the basics of process creation,
+command execution, and simple state management in a shell environment.
+
