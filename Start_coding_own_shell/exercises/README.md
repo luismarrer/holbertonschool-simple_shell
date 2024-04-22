@@ -69,3 +69,9 @@ specified files within the current directory using the `stat` system call.
 The program takes one or more filenames as command-line arguments and checks
 each one to determine if it exists in the directory from which the program is run.
 For each file, it prints a message indicating whether the file was found or not.
+
+### Environment
+
+- `env-var_environ.c`: This program demonstrates how to access and print the system's environment
+variables using the global variable `environ`.
+It iterates through the `environ` array and prints each environment variable to the standard output.
