@@ -62,3 +62,10 @@ ensuring all resources are properly managed and no zombie processes are left.
 This implementation is particularly useful for understanding the basics of process creation,
 command execution, and simple state management in a shell environment.
 
+### File information
+
+- `_which.c`: This exercise demonstrates how to check for the existence of
+specified files within the current directory using the `stat` system call.
+The program takes one or more filenames as command-line arguments and checks
+each one to determine if it exists in the directory from which the program is run.
+For each file, it prints a message indicating whether the file was found or not.
