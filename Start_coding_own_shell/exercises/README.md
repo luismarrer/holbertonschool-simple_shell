@@ -75,3 +75,6 @@ For each file, it prints a message indicating whether the file was found or not.
 - `env-var_environ.c`: This program demonstrates how to access and print the system's environment
 variables using the global variable `environ`.
 It iterates through the `environ` array and prints each environment variable to the standard output.
+- `env_vs_environ.c`: This program explores and compares the memory addresses of the `env` parameter of the `main`
+function and the global variable `environ`.
+It prints out the addresses to check if they are the same, providing insights into how environment variables are managed in memory.
