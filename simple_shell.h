@@ -11,5 +11,6 @@
 
 char **split_strings(const char *input, const char *delims);
 void execute_command(char **tokens, char **env);
+void *_realloc(void *ptr, size_t old_size, size_t new_size);
 
 #endif
