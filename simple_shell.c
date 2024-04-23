@@ -92,7 +92,8 @@ char **split_strings(const char *input, const char *delims)
 		if (n_words >= capacity)
 	{
 			capacity *= 2;
-			words = realloc(words, capacity * sizeof(char *));
+			words = _realloc(words, capacity * sizeof(char *),
+					2 * capacity * sizeof(char *));
 			if (!words)
 			{
 				free(input_copy);
@@ -103,7 +104,8 @@ char **split_strings(const char *input, const char *delims)
 		words[n_words++] = strdup(token);
 		token = strtok(NULL, delims);
 	}
-	words = realloc(words, (n_words + 1) * sizeof(char *));
+	words = _realloc(words, n_words * sizeof(char *),
+			(n_words + 1) * sizeof(char *));
 	words[n_words] = NULL;
 	free(input_copy);
 	return (words);
