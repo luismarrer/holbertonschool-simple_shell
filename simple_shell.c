@@ -9,7 +9,7 @@
  *
  * @env: Array of strings with environment variables.
  *
- * Return: 0 succes, 1 EOF encountered.
+ * Return: 0 succes
  */
 
 int main(int ac __attribute__((unused)),
@@ -22,22 +22,34 @@ int main(int ac __attribute__((unused)),
 	const char *delim = " \n\t";
 	char **tokens;
 	int i;
+	bool is_interactive = isatty(STDIN_FILENO);
 
 	while (true)
 	{
-		printf("#cisfun$ ");
+		if (is_interactive)
+		{
+			printf("#cisfun$ ");
+		}
 		read = getline(&buffer, &len, stdin);
 		if (read == -1)
 		{
 			free(buffer);
-			return (1);
+			if (is_interactive)
+			{
+				printf("\n");
+			}
+			break;
 		}
 		tokens = split_strings(buffer, delim);
 		if (tokens)
+		{
 			execute_command(tokens, env);
-		for (i = 0; tokens[i] != NULL; i++)
-			free(tokens[i]);
-		free(tokens);
+			for (i = 0; tokens[i] != NULL; i++)
+			{
+				free(tokens[i]);
+			}
+			free(tokens);
+		}
 		free(buffer);
 		buffer = NULL;
 	}
@@ -114,14 +126,14 @@ void execute_command(char **tokens, char **env)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("Error:");
+		perror("Error");
 	}
 	else if (pid == 0)
 	{
 		if (execve(tokens[0], tokens, env) == -1)
 		{
-			perror("Error:");
-			return;
+			perror("Error");
+			exit(EXIT_FAILURE);
 		}
 	}
 	else
