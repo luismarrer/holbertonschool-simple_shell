@@ -12,11 +12,13 @@ Most of these exercises are from "Everything you need to know to start coding yo
 ## List of Exercises
 
 ### PID & PPID
+
 - `ppid.c`: This exercise demonstrates how to retrieve and print the parent process ID (PPID) using the `getppid()` function.
 - `pid_max`: This script prints the maximum value that a process ID (PID) can be on this Linux system.
 It reads the value from `/proc/sys/kernel/pid_max` and displays it, providing insight into system limits for PID values.
 
 ### Arguments
+
 - `av.c`: This exercise demonstrates how to print all the command-line arguments passed to the program without using the argument count (`ac`).
 The program iterates over the argument vector (`av`), which is an array of strings representing the command-line arguments,
 and prints each argument until it reaches the `NULL` terminator that marks the end of the array.
@@ -36,6 +38,7 @@ into an array of words based on specified delimiters.
 It showcases dynamic memory management and the use of `strtok` within a user-defined function context.
 
 ### Exercise: fork + wait + execve
+
 - `fwe.c`: This exercise demonstrates advanced process management where the `ls -l /tmp`
 command is executed in five separate child processes, each created sequentially by a single parent process.
 The parent process ensures it waits for the completion of one child before initiating the next, effectively
@@ -48,6 +51,7 @@ This program provides practical insights into process creation, execution, and s
 within the context of Unix-like systems programming.
 
 ### Exercise: super simple shell
+
 - `shell.c`: This program is a simple implementation of a Unix-like shell
 that can execute commands using their full paths without any arguments.
 The shell runs in a continuous loop, displaying a prompt `#cisfun$`
@@ -78,3 +82,5 @@ It iterates through the `environ` array and prints each environment variable to 
 - `env_vs_environ.c`: This program explores and compares the memory addresses of the `env` parameter of the `main`
 function and the global variable `environ`.
 It prints out the addresses to check if they are the same, providing insights into how environment variables are managed in memory.
+- `print_path.c`: This function prints each directory listed in the `PATH` environment variable, one directory per line.
+
