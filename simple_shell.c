@@ -125,6 +125,11 @@ void execute_command(char **tokens, char **env)
 	pid_t pid;
 	int status;
 
+	 if (tokens == NULL || tokens[0] == NULL || tokens[0][0] == '\0')
+	{
+		return;
+	}
+
 	pid = fork();
 	if (pid == -1)
 	{
