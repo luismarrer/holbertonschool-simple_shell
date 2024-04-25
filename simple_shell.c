@@ -47,7 +47,7 @@ int main(int ac __attribute__((unused)),
 		}
 		else
 		{
-			last_command_status = 1;
+			last_command_status = 0;
 		}
 		free_memory(tokens, buffer);
 		buffer = NULL;
@@ -127,7 +127,7 @@ int execute_command(char **tokens, char **env)
 	int status;
 
 	if (tokens == NULL || tokens[0] == NULL || tokens[0][0] == '\0')
-		return (1);
+		return (0);
 	pid = fork();
 	if (pid == -1)
 	{
