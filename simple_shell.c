@@ -44,7 +44,7 @@ int main(int ac __attribute__((unused)),
 			if (strcmp(tokens[0], "exit") == 0)
 			{
 				clean_exit(tokens, buffer);
-				return (2);
+				exit(EXIT_SUCCESS);
 			}
 			execute_command(tokens, env);
 			for (i = 0; tokens[i] != NULL; i++)
