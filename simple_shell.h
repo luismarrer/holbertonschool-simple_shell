@@ -13,5 +13,6 @@ char **split_strings(const char *input, const char *delims);
 int execute_command(char **tokens, char **env);
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
 void free_memory(char **tokens, char *buffer);
+char *search_in_path(char *cmd);
 
 #endif
