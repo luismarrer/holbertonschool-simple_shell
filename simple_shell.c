@@ -19,41 +19,43 @@ int main(int ac __attribute__((unused)),
 	ssize_t read;
 	char *buffer = NULL;
 	size_t len = 0;
-	const char *delim = " \n\t";
+	const char *delims = " \n\t";
 	char **tokens;
-	int i;
+	int last_command_status = 0;
 	bool is_interactive = isatty(STDIN_FILENO);
 
 	while (true)
 	{
 		if (is_interactive)
-		{
 			printf("#cisfun$ ");
-		}
+
 		read = getline(&buffer, &len, stdin);
 		if (read == -1)
 		{
+			printf(is_interactive ? "\n" : "");
 			free(buffer);
-			if (is_interactive)
-			{
-				printf("\n");
-			}
 			break;
 		}
-		tokens = split_strings(buffer, delim);
-		if (tokens)
+		tokens = split_strings(buffer, delims);
+		if (tokens && tokens[0])
 		{
-			execute_command(tokens, env);
-			for (i = 0; tokens[i] != NULL; i++)
+			if (strcmp(tokens[0], "env") == 0)
+				print_environment(env);
+			else if (strcmp(tokens[0], "exit") == 0)
 			{
-				free(tokens[i]);
+				free_memory(tokens, buffer);
+				exit(last_command_status);
 			}
-			free(tokens);
+			last_command_status = execute_command(tokens, env);
 		}
-		free(buffer);
+		else
+		{
+			last_command_status = 0;
+		}
+		free_memory(tokens, buffer);
 		buffer = NULL;
 	}
-	return (0);
+	return (last_command_status);
 }
 
 /**
@@ -112,32 +114,25 @@ char **split_strings(const char *input, const char *delims)
 }
 
 /**
- * execute_command - It is an auxiliary function that
- * calls the commands to be executed.
+ * free_memory - This function clears memory
+ * before exiting the simple shell when using "exit".
  *
- * @tokens: Command to execute.
+ * @tokens: A pointer to an array of strings.
  *
- * @env: The environment variables.
+ * @buffer: A pointer to the input string buffer.
  */
 
-void execute_command(char **tokens, char **env)
+void free_memory(char **tokens, char *buffer)
 {
-	pid_t pid;
-	int status;
+	int i;
 
-	pid = fork();
-	if (pid == -1)
+	if (tokens)
 	{
-		perror("Error");
-	}
-	else if (pid == 0)
-	{
-		if (execve(tokens[0], tokens, env) == -1)
+		for (i = 0; tokens[i] != NULL; i++)
 		{
-			perror("Error");
-			exit(EXIT_FAILURE);
+			free(tokens[i]);
 		}
+		free(tokens);
 	}
-	else
-		wait(&status);
+	free(buffer);
 }
