@@ -39,8 +39,13 @@ int main(int ac __attribute__((unused)),
 			break;
 		}
 		tokens = split_strings(buffer, delim);
-		if (tokens)
+		if (tokens && tokens[0])
 		{
+			if (strcmp(tokens[0], "exit") == 0)
+			{
+				clean_exit(tokens, buffer);
+				return (2);
+			}
 			execute_command(tokens, env);
 			for (i = 0; tokens[i] != NULL; i++)
 				free(tokens[i]);
@@ -120,21 +125,9 @@ void execute_command(char **tokens, char **env)
 {
 	pid_t pid;
 	int status;
-	int i;
 
-	 if (tokens == NULL || tokens[0] == NULL || tokens[0][0] == '\0')
+	if (tokens == NULL || tokens[0] == NULL || tokens[0][0] == '\0')
 		return;
-
-
-	if (strcmp(tokens[0], "exit") == 0)
-	{
-		
-		for(i = 0; tokens[i] != NULL; i++)
-			free(tokens[i]);
-		free(tokens);
-		exit(EXIT_SUCCESS);
-	}
-
 	pid = fork();
 	if (pid == -1)
 		perror("Error");
@@ -149,6 +142,27 @@ void execute_command(char **tokens, char **env)
 	else
 		wait(&status);
 }
+
+/**
+ * clean_exit - This function clears memory
+ * before exiting the simple shell when using "exit".
+ */
+
+void clean_exit(char **tokens, char *buffer)
+{
+	int i;
+
+	if (tokens)
+	{
+		for (i = 0; tokens[i] != NULL; i++)
+		{
+			free(tokens[i]);
+		}
+		free(tokens);
+	}
+	free(buffer);
+}
+
 /*
 char *search_in_path(char *cmd)
 {
