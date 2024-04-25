@@ -130,7 +130,7 @@ int execute_command(char **tokens, char **env)
 
 	if (tokens == NULL || tokens[0] == NULL || tokens[0][0] == '\0')
 		return (0);
-	path = search_in_path(tokens[0]);
+	path = search_in_path(tokens[0], env);
 	if (path == NULL)
 	{
 		fprintf(stderr, "%s: command not found\n", tokens[0]);
@@ -192,14 +192,16 @@ void free_memory(char **tokens, char *buffer)
  *
  * @cmd: The command to search for.
  *
+ * @env: Enviroment.
+ *
  * Return: A pointer to a string containing the full path
  * of the command if found,
  * NULL if the command is not found.
  */
 
-char *search_in_path(char *cmd)
+char *search_in_path(char *cmd, char **env)
 {
-	char *path = getenv("PATH");
+	char *path = _getenv("PATH", env);
 	char *path_copy = strdup(path);
 	char *dir;
 	char *full_path;

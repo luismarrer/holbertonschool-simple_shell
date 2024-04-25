@@ -39,3 +39,33 @@ void *_realloc(void *ptr, size_t old_size, size_t new_size)
 	return (new_ptr);
 }
 
+/**
+ * _getenv - Retrieves the value of an environment variable.
+ *
+ * @name: The name of the variable to find.
+ *
+ * @env: The environment array.
+ *
+ * Return: Pointer to the value of the environment variable,
+ * or NULL if the variable cannot be found.
+ */
+
+char *_getenv(const char *name, char **env)
+{
+	size_t name_len = strlen(name);
+	int i;
+
+	if (!name || !env)
+	{
+		return (NULL);
+	}
+
+	for (i = 0; env[i] != NULL; i++)
+	{
+		if (strncmp(env[i], name, name_len) == 0 && env[i][name_len] == '=')
+		{
+			return (env[i] + name_len + 1);
+		}
+	}
+	return (NULL);
+}
