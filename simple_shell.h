@@ -13,6 +13,7 @@
 /*simple_shell*/
 char **split_strings(const char *input, const char *delims);
 void free_memory(char **tokens, char *buffer);
+int handle_command(char **tokens, char **env, char *buffer, int *status);
 /*execute_command*/
 int execute_command(char **tokens, char **env);
 int check_command_access(char **cmd, char **env);
