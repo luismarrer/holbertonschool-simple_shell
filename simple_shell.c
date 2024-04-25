@@ -27,9 +27,7 @@ int main(int ac __attribute__((unused)),
 	while (true)
 	{
 		if (is_interactive)
-		{
 			printf("#cisfun$ ");
-		}
 		read = getline(&buffer, &len, stdin);
 		if (read == -1)
 		{
@@ -45,9 +43,7 @@ int main(int ac __attribute__((unused)),
 		{
 			execute_command(tokens, env);
 			for (i = 0; tokens[i] != NULL; i++)
-			{
 				free(tokens[i]);
-			}
 			free(tokens);
 		}
 		free(buffer);
@@ -126,9 +122,7 @@ void execute_command(char **tokens, char **env)
 	int status;
 
 	 if (tokens == NULL || tokens[0] == NULL || tokens[0][0] == '\0')
-	{
 		return;
-	}
 
 
 	if (strcmp(tokens[0], "exit") == 0)
@@ -138,9 +132,7 @@ void execute_command(char **tokens, char **env)
 
 	pid = fork();
 	if (pid == -1)
-	{
 		perror("Error");
-	}
 	else if (pid == 0)
 	{
 		if (execve(tokens[0], tokens, env) == -1)
@@ -152,3 +144,16 @@ void execute_command(char **tokens, char **env)
 	else
 		wait(&status);
 }
+
+char *search_in_path(char *cmd)
+{
+	char *path = getenv("PATH");
+	char *path_copy = strdup(path);
+	char *dir = strtok(path_copy, ":");
+
+	if (!path)
+		return (NULL);
+	if (!path_copy)
+		return (NULL);
+	while (dir != NULL)
+
