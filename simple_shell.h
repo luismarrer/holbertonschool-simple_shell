@@ -12,11 +12,8 @@
 
 /*simple_shell*/
 char **split_strings(const char *input, const char *delims);
-<<<<<<< HEAD
-void execute_command(char **tokens, char **env);
-void *_realloc(void *ptr, size_t old_size, size_t new_size);
-=======
 void free_memory(char **tokens, char *buffer);
+int handle_command(char **tokens, char **env, char *buffer, int *status);
 /*execute_command*/
 int execute_command(char **tokens, char **env);
 int check_command_access(char **cmd, char **env);
@@ -28,6 +25,5 @@ void print_environment(char **env);
 /*my_own_func*/
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
 char *_getenv(const char *name, char **env);
->>>>>>> origin/main
 
 #endif

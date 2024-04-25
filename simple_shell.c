@@ -39,17 +39,8 @@ int main(int ac __attribute__((unused)),
 		tokens = split_strings(buffer, delims);
 		if (tokens && tokens[0])
 		{
-			if (strcmp(tokens[0], "env") == 0)
-			{
-				print_environment(env);
-				last_command_status = 0;
+			if (handle_command(tokens, env, buffer, &last_command_status))
 				continue;
-			}
-			else if (strcmp(tokens[0], "exit") == 0)
-			{
-				free_memory(tokens, buffer);
-				exit(last_command_status);
-			}
 			last_command_status = execute_command(tokens, env);
 		}
 		else
@@ -140,3 +131,34 @@ void free_memory(char **tokens, char *buffer)
 	}
 	free(buffer);
 }
+
+/**
+ * handle_command - Handles execution of built-in commands.
+ *
+ * @tokens: Tokens parsed from input.
+ *
+ * @env: Environment variables.
+ *
+ * @buffer: Buffer holding the input string.
+ *
+ * @status: Pointer to the status of the last executed command.
+ *
+ * Returns: 0 otherwise.
+ */
+
+int handle_command(char **tokens, char **env, char *buffer, int *status)
+{
+	if (strcmp(tokens[0], "env") == 0)
+	{
+		print_environment(env);
+		*status = 0;
+		return (1);
+	}
+	else if (strcmp(tokens[0], "exit") == 0)
+	{
+		free_memory(tokens, buffer);
+		exit(*status);
+	}
+	return (0);
+}
+

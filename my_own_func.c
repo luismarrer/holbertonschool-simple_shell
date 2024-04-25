@@ -39,8 +39,6 @@ void *_realloc(void *ptr, size_t old_size, size_t new_size)
 	return (new_ptr);
 }
 
-<<<<<<< HEAD
-=======
 /**
  * _getenv - Retrieves the value of an environment variable.
  *
@@ -71,4 +69,3 @@ char *_getenv(const char *name, char **env)
 	}
 	return (NULL);
 }
->>>>>>> origin/main
