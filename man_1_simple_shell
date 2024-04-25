@@ -29,12 +29,44 @@ The following commands are supported:
 exit - EXIT the shell
 Any other command entered will be executed as a system command.
 
-.SY ENVIRONMENT
+.SY
 
-.BR 
+.BR
+
+PROMPT
+ The default prompt for simple_shell is "cisfun". This indicates that it is
+ready to receive commands from the user.
+
+.BR
+
+LIBRARY
+
+The header file simple_shell.h provides the function declarations and
+ structure definitions necessary for the proper functioning of simple_shell.
+
+#include <simple_shell.h>
+
+.BR
+PATH OF SHELL COMMANDS
+
+The path of shell commands is defined as the list of directories where
+simple_shell looks for executable binaries of commands entered by the user.
+These directories are specified in the PATH environment variable.
+
+ For example:
+ PATH=/bin:/usr/bin:/usr/local/bin
+In this case, simple_shell will look for executable binaries of commands in
+the directories /bin, /usr/bin, and /usr/local/bin, in that order.
+`
+.BR
 ENVIRONMENT
 
+Environment variables are commonly used for configuration, such as specifying paths, credentials
+ or other settings that may vary between different environments (like development, testing, and production)
+
 .PP
+.BR
+
 The simple_shell program uses the following environment variables:
 PATH - A colon-separated list of directories in which the shell looks
 for executable files.
