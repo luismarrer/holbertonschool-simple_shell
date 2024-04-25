@@ -39,7 +39,9 @@ int main(int ac __attribute__((unused)),
 		tokens = split_strings(buffer, delims);
 		if (tokens && tokens[0])
 		{
-			if (strcmp(tokens[0], "exit") == 0)
+			if (strcmp(tokens[0], "env") == 0)
+				print_environment(env);
+			else if (strcmp(tokens[0], "exit") == 0)
 			{
 				free_memory(tokens, buffer);
 				exit(last_command_status);

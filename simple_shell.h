@@ -19,6 +19,8 @@ int check_command_access(char **cmd, char **env);
 int execute_child_process(char **cmd, char **env, char *path);
 char *search_in_path(char *cmd, char **env);
 char *check_direct_access(const char *cmd);
+/*env*/
+void print_environment(char **env);
 /*my_own_func*/
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
 char *_getenv(const char *name, char **env);

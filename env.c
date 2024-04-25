@@ -6,12 +6,19 @@
  * @env: Array of strings with environment variables.
  */
 
-void print_environment(char *env)
+void print_environment(char **env)
 {
-	int i;
+	int i = 0;
 
-	for (i = 0; env[i] != NULL; i++)
+	if (env == NULL)
+	{
+		printf("Error: No environment variables found.\n");
+		return;
+	}
+	while (env[i] != NULL)
 	{
 		printf("%s\n", env[i]);
+		i++;
 	}
 }
+
