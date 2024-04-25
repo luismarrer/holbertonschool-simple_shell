@@ -10,8 +10,8 @@
 #include <stdbool.h>
 
 char **split_strings(const char *input, const char *delims);
-void execute_command(char **tokens, char **env);
+int execute_command(char **tokens, char **env);
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
-void clean_exit(char **tokens, char *buffer);
+void free_memory(char **tokens, char *buffer);
 
 #endif
