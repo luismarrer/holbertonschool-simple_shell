@@ -2,6 +2,7 @@
 
 /**
  * main - This program is a simple shell.
+ *
  * @ac: Argument counter (not used).
  *
  * @av: Array of string with arguments (not used).
@@ -18,7 +19,7 @@ int main(int ac __attribute__((unused)),
 	ssize_t read;
 	char *buffer = NULL;
 	size_t len = 0;
-	const char *delim = " \n\t";
+	const char *delims = " \n\t";
 	char **tokens;
 	int last_command_status = 0;
 	bool is_interactive = isatty(STDIN_FILENO);
@@ -35,7 +36,7 @@ int main(int ac __attribute__((unused)),
 			free(buffer);
 			break;
 		}
-		tokens = split_strings(buffer, delim);
+		tokens = split_strings(buffer, delims);
 		if (tokens && tokens[0])
 		{
 			if (strcmp(tokens[0], "exit") == 0)
@@ -134,7 +135,7 @@ int execute_command(char **tokens, char **env)
 	{
 		if (access(tokens[0], X_OK) != 0)
 		{
-			fprintf(stderr, "%s: command not found\n", tokens[0]);
+			fprintf(stderr, "./hsh: 1: %s: not found\n", tokens[0]);
 			return (127);
 		}
 		path = strdup(tokens[0]);
@@ -214,7 +215,6 @@ char *search_in_path(char *cmd, char **env)
 
 	if (!path)
 	{
-		fprintf(stderr, "Error: PATH environment variable not found.\n");
 		return (NULL);
 	}
 	if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/'))
@@ -223,7 +223,6 @@ char *search_in_path(char *cmd, char **env)
 		{
 			return (strdup(cmd));
 		}
-		fprintf(stderr, "%s: No such file or directory\n", cmd);
 		return (NULL);
 	}
 	path_copy = strdup(path);
@@ -239,7 +238,6 @@ char *search_in_path(char *cmd, char **env)
 		full_path = malloc(dir_len + 1 + cmd_len + 1);
 		if (!full_path)
 		{
-			perror("Failed to allocate memory for full path");
 			free(path_copy);
 			return (NULL);
 		}
