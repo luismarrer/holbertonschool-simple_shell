@@ -145,7 +145,7 @@ int execute_command(char **tokens, char **env)
 		path = search_in_path(tokens[0], env);
 		if (path == NULL)
 		{
-			fprintf(stderr, "%s: command not found\n", tokens[0]);
+			fprintf(stderr, "./hsh: 1: %s: not found\n", tokens[0]);;
 			return (127);
 		}
 	}
