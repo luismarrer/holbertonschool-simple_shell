@@ -130,6 +130,12 @@ void execute_command(char **tokens, char **env)
 		return;
 	}
 
+
+	if (strcmp(tokens[0], "exit") == 0)
+	{
+		exit(EXIT_SUCCESS);
+	}
+
 	pid = fork();
 	if (pid == -1)
 	{
