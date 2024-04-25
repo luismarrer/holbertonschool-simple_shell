@@ -2,7 +2,6 @@
 
 /**
  * main - This program is a simple shell.
- *
  * @ac: Argument counter (not used).
  *
  * @av: Array of string with arguments (not used).
@@ -21,21 +20,19 @@ int main(int ac __attribute__((unused)),
 	size_t len = 0;
 	const char *delim = " \n\t";
 	char **tokens;
-	int i;
+	int last_command_status = 0;
 	bool is_interactive = isatty(STDIN_FILENO);
 
 	while (true)
 	{
 		if (is_interactive)
 			printf("#cisfun$ ");
+
 		read = getline(&buffer, &len, stdin);
 		if (read == -1)
 		{
-			free(buffer);
-			if (is_interactive)
-			{
-				printf("\n");
-			}
+			printf(is_interactive ? "\n" : "");
+			free (buffer);
 			break;
 		}
 		tokens = split_strings(buffer, delim);
@@ -43,18 +40,19 @@ int main(int ac __attribute__((unused)),
 		{
 			if (strcmp(tokens[0], "exit") == 0)
 			{
-				clean_exit(tokens, buffer);
-				exit(EXIT_SUCCESS);
+				free_memory(tokens, buffer);
+				exit(last_command_status);
 			}
-			execute_command(tokens, env);
-			for (i = 0; tokens[i] != NULL; i++)
-				free(tokens[i]);
-			free(tokens);
+			last_command_status = execute_command(tokens, env);
 		}
-		free(buffer);
+		else
+		{
+			last_command_status = 1;
+		}
+		free_memory(tokens, buffer);
 		buffer = NULL;
 	}
-	return (0);
+	return (last_command_status);
 }
 
 /**
@@ -119,36 +117,52 @@ char **split_strings(const char *input, const char *delims)
  * @tokens: Command to execute.
  *
  * @env: The environment variables.
+ *
+ * Return:
  */
 
-void execute_command(char **tokens, char **env)
+int execute_command(char **tokens, char **env)
 {
 	pid_t pid;
 	int status;
 
 	if (tokens == NULL || tokens[0] == NULL || tokens[0][0] == '\0')
-		return;
+		return (1);
 	pid = fork();
 	if (pid == -1)
-		perror("Error");
+	{
+		perror("Error en fork");
+		return (1);
+	}
 	else if (pid == 0)
 	{
 		if (execve(tokens[0], tokens, env) == -1)
 		{
-			perror("Error");
-			exit(EXIT_FAILURE);
+			perror("Error en execve");
+			exit(127);
 		}
 	}
 	else
+	{
 		wait(&status);
+		if (WIFEXITED(status))
+		{
+			return (WEXITSTATUS(status));
+		}
+		if (WIFSIGNALED(status))
+		{
+			return (128 + WTERMSIG(status));
+		}
+	}
+	return (0);
 }
 
 /**
- * clean_exit - This function clears memory
+ * free_memory - This function clears memory
  * before exiting the simple shell when using "exit".
  */
 
-void clean_exit(char **tokens, char *buffer)
+void free_memory(char **tokens, char *buffer)
 {
 	int i;
 
