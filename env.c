@@ -1,19 +1,17 @@
+#include "simple_shell.h"
 
 /**
  * print_environment - Prints all environment variables.
  *
  * @env: Array of strings with environment variables.
- *
  */
 
+void print_environment(char *env)
 {
-	int i = 0;
+	int i;
 
-void print_environment(char **env);
-
-    while (env[i] != NULL)
-    {
-        printf("%s\n", env[i]);
-        i++;
-    }
+	for (i = 0; env[i] != NULL; i++)
+	{
+		printf("%s\n", env[i]);
+	}
 }
