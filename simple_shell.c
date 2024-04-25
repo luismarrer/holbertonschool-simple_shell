@@ -40,7 +40,11 @@ int main(int ac __attribute__((unused)),
 		if (tokens && tokens[0])
 		{
 			if (strcmp(tokens[0], "env") == 0)
+			{
 				print_environment(env);
+				last_command_status = 0;
+				continue;
+			}
 			else if (strcmp(tokens[0], "exit") == 0)
 			{
 				free_memory(tokens, buffer);
