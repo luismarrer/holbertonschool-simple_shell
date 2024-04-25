@@ -120,6 +120,7 @@ void execute_command(char **tokens, char **env)
 {
 	pid_t pid;
 	int status;
+	int i;
 
 	 if (tokens == NULL || tokens[0] == NULL || tokens[0][0] == '\0')
 		return;
@@ -127,6 +128,10 @@ void execute_command(char **tokens, char **env)
 
 	if (strcmp(tokens[0], "exit") == 0)
 	{
+		
+		for(i = 0; tokens[i] != NULL; i++)
+			free(tokens[i]);
+		free(tokens);
 		exit(EXIT_SUCCESS);
 	}
 
@@ -144,7 +149,7 @@ void execute_command(char **tokens, char **env)
 	else
 		wait(&status);
 }
-
+/*
 char *search_in_path(char *cmd)
 {
 	char *path = getenv("PATH");
@@ -156,4 +161,4 @@ char *search_in_path(char *cmd)
 	if (!path_copy)
 		return (NULL);
 	while (dir != NULL)
-
+*/
