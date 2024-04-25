@@ -1,0 +1,98 @@
+.TH man "04/23/2024" "1.0" "simple_shell man page"
+
+.TH simple_shell 1 "04/23/2024" "1.0" "simple_shell man page"
+
+.SH NAME
+
+simple_shell \- A simple Unix shell program
+
+.BR DESCRIPTION
+
+.PP
+
+The simple_shell program is a basic Unix shell that provides a command-line
+interface for users to execute commands. It reads commands from the standard
+input and executes them.
+
+.BR OPTIONS
+
+OPTIONS
+This program does not accept any command-line options.
+
+.Sy COMMANDS
+
+COMMANDS
+
+The following commands are supported:
+.BR
+
+exit - EXIT the shell
+Any other command entered will be executed as a system command.
+
+.SY
+
+.BR
+
+PROMPT
+ The default prompt for simple_shell is "cisfun". This indicates that it is
+ready to receive commands from the user.
+
+.BR
+
+LIBRARY
+
+The header file simple_shell.h provides the function declarations and
+ structure definitions necessary for the proper functioning of simple_shell.
+
+#include <simple_shell.h>
+
+.BR
+PATH OF SHELL COMMANDS
+
+The path of shell commands is defined as the list of directories where
+simple_shell looks for executable binaries of commands entered by the user.
+These directories are specified in the PATH environment variable.
+
+ For example:
+ PATH=/bin:/usr/bin:/usr/local/bin
+In this case, simple_shell will look for executable binaries of commands in
+the directories /bin, /usr/bin, and /usr/local/bin, in that order.
+`
+.BR
+ENVIRONMENT
+
+Environment variables are commonly used for configuration, such as specifying paths, credentials
+ or other settings that may vary between different environments (like development, testing, and production)
+
+.PP
+.BR
+
+The simple_shell program uses the following environment variables:
+PATH - A colon-separated list of directories in which the shell looks
+for executable files.
+
+.SH AUTHORS
+
+Written by:
+
+.LP
+
+Luis Marrero <https://github.com/luismarrer>
+.LP
+
+Emmanuel Torres <https://github.com/Emahnny>
+.LP
+
+Nissel Sanchez <https://github.com/niniisg>
+
+.BR Reporting Bugs
+
+Report bugs to:
+.LP
+
+Luis Marrero <https://github.com/Luismarrer>, Emmanuel Torres <https://github.com/Emahnny>, Nissel Sanchez <https://github.com/niniisg>
+
+.SH VERSION
+
+This manual page corresponds to version 1.0 of the simple_shell program.
+
