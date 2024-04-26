@@ -30,10 +30,6 @@ void *_realloc(void *ptr, size_t old_size, size_t new_size)
 		return (ptr);
 	}
 
-	if (new_ptr == NULL)
-	{
-		return (NULL);
-	}
 	memcpy(new_ptr, ptr, old_size);
 	free(ptr);
 	return (new_ptr);
