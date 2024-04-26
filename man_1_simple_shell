@@ -8,7 +8,7 @@ simple_shell \- A simple Unix shell program
 
 .BR DESCRIPTION
 
-[This is an interaction example image of our shell.](ShellExample.png)
+[This is an interaction example image of our shell.](ShellExample.png)(https://github.com/Luismarrer/holbertonschool-simple_shell/blob/main/ShellExample.png)
 
 .PP
 
