@@ -8,6 +8,8 @@ simple_shell \- A simple Unix shell program
 
 .BR DESCRIPTION
 
+[This is an interaction example image of our shell.](ShellExample.png)
+
 .PP
 
 The simple_shell program is a basic Unix shell that provides a command-line
@@ -19,7 +21,7 @@ input and executes them.
 OPTIONS
 This program does not accept any command-line options.
 
-.Sy COMMANDS
+.SY
 
 COMMANDS
 
@@ -34,6 +36,7 @@ Any other command entered will be executed as a system command.
 .BR
 
 PROMPT
+
  The default prompt for simple_shell is "cisfun". This indicates that it is
 ready to receive commands from the user.
 
@@ -61,8 +64,9 @@ the directories /bin, /usr/bin, and /usr/local/bin, in that order.
 .BR
 ENVIRONMENT
 
-Environment variables are commonly used for configuration, such as specifying paths, credentials
- or other settings that may vary between different environments (like development, testing, and production)
+Environment variables are commonly used for configuration,
+such as specifying paths, credentials or other settings that may vary between different environments
+(like development, testing, and production)
 
 .PP
 .BR
@@ -70,6 +74,42 @@ Environment variables are commonly used for configuration, such as specifying pa
 The simple_shell program uses the following environment variables:
 PATH - A colon-separated list of directories in which the shell looks
 for executable files.
+
+.SH COMPLITAION
+
+.BR
+
+-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+
+.SH
+TESTING
+.BR
+Interactive mode:
+
+$ ./hsh
+($) /bin/ls
+hsh main.c shell.c
+($)
+($) exit
+$
+
+.SH
+.BR
+
+-non-intactactive
+
+$ echo "/bin/ls" | ./hsh
+hsh main.c shell.c test_ls_2
+$
+$ cat test_ls_2
+/bin/ls
+/bin/ls
+$
+$ cat test_ls_2 | ./hsh
+hsh main.c shell.c test_ls_2
+hsh main.c shell.c test_ls_2
+$
+
 
 .SH AUTHORS
 
