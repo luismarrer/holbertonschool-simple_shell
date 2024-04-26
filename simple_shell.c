@@ -9,7 +9,7 @@
  *
  * @env: Array of strings with environment variables.
  *
- * Return: 0 succes
+ * Return: 0 succes, arreglar...
  */
 
 int main(int ac __attribute__((unused)),
@@ -22,32 +22,32 @@ int main(int ac __attribute__((unused)),
 	const char *delims = " \n\t";
 	char **tokens;
 	int last_command_status = 0;
-	bool is_interactive = isatty(STDIN_FILENO);
+	bool is_interactive = isatty(STDIN_FILENO); /*si es verdadero es interactivo*/
 
 	while (true)
 	{
 		if (is_interactive)
-			printf("#cisfun$ ");
+			printf("#cisfun$ "); /*prompt*/
 
 		read = getline(&buffer, &len, stdin);
-		if (read == -1)
+		if (read == -1) /* EOF o error*/
 		{
-			printf(is_interactive ? "\n" : "");
+			printf(is_interactive ? "\n" : ""); /* si es interactive new line, no nada*/
 			free(buffer);
 			break;
 		}
-		tokens = split_strings(buffer, delims);
-		if (tokens && tokens[0])
+		tokens = split_strings(buffer, delims); /*crear un array de strings*/
+		if (tokens && tokens[0]) /*tokens no es NULL*/
 		{
-			if (handle_command(tokens, env, buffer, &last_command_status))
-				continue;
+			if (handle_command(tokens, env, buffer, &last_command_status)) /*env, exit*/
+				continue; /* cambiar?*/
 			last_command_status = execute_command(tokens, env);
 		}
 		else
 		{
 			last_command_status = 0;
 		}
-		free_memory(tokens, buffer);
+		free_memory(tokens, buffer); /*limpieza*/
 		buffer = NULL;
 	}
 	return (last_command_status);
@@ -102,7 +102,7 @@ char **split_strings(const char *input, const char *delims)
 		token = strtok(NULL, delims);
 	}
 	words = _realloc(words, n_words * sizeof(char *),
-			(n_words + 1) * sizeof(char *));
+			(n_words + 1) * sizeof(char *)); /*ajuste de memoria para NULL*/
 	words[n_words] = NULL;
 	free(input_copy);
 	return (words);
