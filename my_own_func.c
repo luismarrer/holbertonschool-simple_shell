@@ -34,7 +34,7 @@ void *_realloc(void *ptr, size_t old_size, size_t new_size)
 	{
 		return (NULL);
 	}
-	memcpy(new_ptr, ptr, old_size);
+	memcpy(new_ptr, ptr, old_size); /*copia ptr en new_ptr*/
 	free(ptr);
 	return (new_ptr);
 }
@@ -55,16 +55,16 @@ char *_getenv(const char *name, char **env)
 	size_t name_len = strlen(name);
 	int i;
 
-	if (!name || !env)
+	if (!name || !env) /*name or env son nulos*/
 	{
 		return (NULL);
 	}
 
 	for (i = 0; env[i] != NULL; i++)
 	{
-		if (strncmp(env[i], name, name_len) == 0 && env[i][name_len] == '=')
+		if (strncmp(env[i], name, name_len) == 0 && env[i][name_len] == '=') /*recordar que los indices comienzan en cero*/
 		{
-			return (env[i] + name_len + 1);
+			return (env[i] + name_len + 1); /*retorna un pointer a lo que esta luego de '='*/
 		}
 	}
 	return (NULL);

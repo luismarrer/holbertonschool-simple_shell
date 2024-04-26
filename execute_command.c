@@ -16,9 +16,9 @@ int execute_command(char **tokens, char **env)
 {
 	if (tokens == NULL || tokens[0] == NULL || tokens[0][0] == '\0')
 	{
-		return (0);
+		return (0); /*Tokens es NULL*/
 	}
-	return (check_command_access(tokens, env));
+	return (check_command_access(tokens, env)); /*Token no es NULL*/
 }
 
 /**
@@ -42,16 +42,16 @@ int check_command_access(char **cmd, char **env)
 {
 	char *path;
 
-	if (*cmd[0] == '/' || (*cmd[0] == '.' && (*cmd)[1] == '/'))
+	if (*cmd[0] == '/' || (*cmd[0] == '.' && (*cmd)[1] == '/')) /*'/' o './'*/
 	{
-		if (access(*cmd, X_OK) != 0)
+		if (access(*cmd, X_OK) != 0) /*verificación de si existe y es ejecutable*/
 		{
-			fprintf(stderr, "./hsh: 1: %s: not found\n", *cmd);
+			fprintf(stderr, "./hsh: 1: %s: not found\n", *cmd); /*no existe o no es ejecutable*/
 			return (127);
 		}
-		path = strdup(*cmd);
+		path = strdup(*cmd); /*si existe y es ejecutable, será el path de execve*/
 	}
-	else
+	else /* no es una ruta*/
 	{
 		path = search_in_path(*cmd, env);
 		if (path == NULL)
@@ -102,10 +102,10 @@ int execute_child_process(char **cmd, char **env, char *path)
 	}
 	free(path);
 	wait(&status);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
+	if (WIFEXITED(status)) /*verificar si hijo termino correctamente*/
+		return (WEXITSTATUS(status)); /*obtener el codigo de salida del hijo*/
+	else if (WIFSIGNALED(status)) /*hijo termino por un error*/
+		return (128 + WTERMSIG(status)); /*obtener el código de salida del hijo cuando termina por error*/
 	return (0);
 }
 
@@ -133,14 +133,14 @@ char *search_in_path(char *cmd, char **env)
 	{
 		return (NULL);
 	}
-	if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/'))
+	if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/')) /*borrar*/
 	{
 		result = check_direct_access(cmd);
 		if (result)
 			return (result);
 	}
 	path_copy = strdup(path);
-	if (!path_copy)
+	if (!path_copy) /*la copia no salio*/
 	{
 		perror("Failed to allocate memory");
 		return (NULL);
@@ -149,14 +149,14 @@ char *search_in_path(char *cmd, char **env)
 	for (dir = strtok(path_copy, ":"); dir; dir = strtok(NULL, ":"))
 	{
 		dir_len = strlen(dir);
-		full_path = malloc(dir_len + 1 + cmd_len + 1);
-		if (!full_path)
+		full_path = malloc(dir_len + 1 + cmd_len + 1); /*dir, '/', cmd*/
+		if (!full_path) /*es nulo*/
 		{
 			free(path_copy);
 			return (NULL);
 		}
-		sprintf(full_path, "%s/%s", dir, cmd);
-		if (access(full_path, X_OK) == 0)
+		sprintf(full_path, "%s/%s", dir, cmd); /*creando el full_path*/
+		if (access(full_path, X_OK) == 0) /*full_path existe y es ejecutable*/
 		{
 			free(path_copy);
 			return (full_path);
@@ -176,7 +176,7 @@ char *search_in_path(char *cmd, char **env)
  * Return: Copied string of path if executable, NULL otherwise.
  */
 
-char *check_direct_access(const char *cmd)
+char *check_direct_access(const char *cmd) /*eliminar*/
 {
 	if (access(cmd, X_OK) == 0)
 		return (strdup(cmd));
