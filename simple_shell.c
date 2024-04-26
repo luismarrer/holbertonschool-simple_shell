@@ -130,6 +130,7 @@ void free_memory(char **tokens, char *buffer)
 		free(tokens);
 	}
 	free(buffer);
+	buffer = NULL;
 }
 
 /**
@@ -152,6 +153,7 @@ int handle_command(char **tokens, char **env, char *buffer, int *status)
 	{
 		print_environment(env);
 		*status = 0;
+		free_memory(tokens, buffer);
 		return (1);
 	}
 	else if (strcmp(tokens[0], "exit") == 0)
