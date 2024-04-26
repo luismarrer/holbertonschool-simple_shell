@@ -8,6 +8,8 @@ simple_shell \- A simple Unix shell program
 
 .BR DESCRIPTION
 
+[This is an interaction example image of our shell.](ShellExample.png)
+
 .PP
 
 The simple_shell program is a basic Unix shell that provides a command-line
