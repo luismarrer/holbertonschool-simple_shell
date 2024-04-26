@@ -143,7 +143,7 @@ void free_memory(char **tokens, char *buffer)
  *
  * @status: Pointer to the status of the last executed command.
  *
- * Returns: 0 otherwise.
+ * Return: 1 if it is env, 0 otherwise.
  */
 
 int handle_command(char **tokens, char **env, char *buffer, int *status)
