@@ -14,11 +14,13 @@
 
 int execute_command(char **tokens, char **env)
 {
+	/* tokens is NULL */
 	if (tokens == NULL || tokens[0] == NULL || tokens[0][0] == '\0')
 	{
-		return (0); /*Tokens es NULL*/
+		return (0);
 	}
-	return (check_command_access(tokens, env)); /*Token no es NULL*/
+	/* tokens is not NULL */
+	return (check_command_access(tokens, env));
 }
 
 /**
@@ -42,16 +44,21 @@ int check_command_access(char **cmd, char **env)
 {
 	char *path;
 
-	if (*cmd[0] == '/' || (*cmd[0] == '.' && (*cmd)[1] == '/')) /*'/' o './'*/
+	/* '/' or './' */
+	if (*cmd[0] == '/' || (*cmd[0] == '.' && (*cmd)[1] == '/'))
 	{
-		if (access(*cmd, X_OK) != 0) /*verificación de si existe y es ejecutable*/
+		/* verification if the file exists and is executable */
+		if (access(*cmd, X_OK) != 0)
 		{
-			fprintf(stderr, "./hsh: 1: %s: not found\n", *cmd); /*no existe o no es ejecutable*/
+			/* the file does not exist or is not executable */
+			fprintf(stderr, "./hsh: 1: %s: not found\n", *cmd);
 			return (127);
 		}
-		path = strdup(*cmd); /*si existe y es ejecutable, será el path de execve*/
+		/* existing and executable file will be the path for execve */
+		path = strdup(*cmd);
 	}
-	else /* no es una ruta*/
+	/* is not a valid path */
+	else
 	{
 		path = search_in_path(*cmd, env);
 		if (path == NULL)
@@ -102,10 +109,14 @@ int execute_child_process(char **cmd, char **env, char *path)
 	}
 	free(path);
 	wait(&status);
-	if (WIFEXITED(status)) /*verificar si hijo termino correctamente*/
-		return (WEXITSTATUS(status)); /*obtener el codigo de salida del hijo*/
-	else if (WIFSIGNALED(status)) /*hijo termino por un error*/
-		return (128 + WTERMSIG(status)); /*obtener el código de salida del hijo cuando termina por error*/
+	/* check if child finishes correctly */
+	if (WIFEXITED(status))
+		/* get the child's exit code */
+		return (WEXITSTATUS(status));
+	/* the son ended due to an error */
+	else if (WIFSIGNALED(status))
+		/* get the child's exit code when it terminates by error */
+		return (128 + WTERMSIG(status));
 	return (0);
 }
 
@@ -126,21 +137,16 @@ int execute_child_process(char **cmd, char **env, char *path)
 
 char *search_in_path(char *cmd, char **env)
 {
-	char *path = _getenv("PATH", env), *path_copy, *dir, *full_path, *result;
+	char *path = _getenv("PATH", env), *path_copy, *dir, *full_path;
 	size_t cmd_len, dir_len;
 
 	if (!path)
 	{
 		return (NULL);
 	}
-	if (cmd[0] == '/' || (cmd[0] == '.' && cmd[1] == '/')) /*borrar*/
-	{
-		result = check_direct_access(cmd);
-		if (result)
-			return (result);
-	}
 	path_copy = strdup(path);
-	if (!path_copy) /*la copia no salio*/
+	/*copy failed*/
+	if (!path_copy)
 	{
 		perror("Failed to allocate memory");
 		return (NULL);
@@ -149,14 +155,18 @@ char *search_in_path(char *cmd, char **env)
 	for (dir = strtok(path_copy, ":"); dir; dir = strtok(NULL, ":"))
 	{
 		dir_len = strlen(dir);
-		full_path = malloc(dir_len + 1 + cmd_len + 1); /*dir, '/', cmd*/
-		if (!full_path) /*es nulo*/
+		/* separate space for path, '/', command and '\0' */
+		full_path = malloc(dir_len + 1 + cmd_len + 1);
+		/* failure in malloc */
+		if (!full_path)
 		{
 			free(path_copy);
 			return (NULL);
 		}
-		sprintf(full_path, "%s/%s", dir, cmd); /*creando el full_path*/
-		if (access(full_path, X_OK) == 0) /*full_path existe y es ejecutable*/
+		/* creating the full_path */
+		sprintf(full_path, "%s/%s", dir, cmd);
+		/* verification if the file exists and is executable */
+		if (access(full_path, X_OK) == 0)
 		{
 			free(path_copy);
 			return (full_path);
@@ -164,21 +174,5 @@ char *search_in_path(char *cmd, char **env)
 		free(full_path);
 	}
 	free(path_copy);
-	return (NULL);
-}
-
-/**
- * check_direct_access - Checks if a command
- * is a direct path and is executable.
- *
- * @cmd: Command to check.
- *
- * Return: Copied string of path if executable, NULL otherwise.
- */
-
-char *check_direct_access(const char *cmd) /*eliminar*/
-{
-	if (access(cmd, X_OK) == 0)
-		return (strdup(cmd));
 	return (NULL);
 }

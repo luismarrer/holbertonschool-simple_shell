@@ -9,7 +9,18 @@
  *
  * @env: Array of strings with environment variables.
  *
- * Return: 0 succes, arreglar...
+ * Description: This shell reads commands from the standard input,
+ * processes them, and executes the corresponding programs. It handles
+ * both interactive and non-interactive modes. When running interactively,
+ * it displays a prompt and waits for user input. Commands are executed and
+ * the shell waits for the process to
+ * finish before displaying the prompt again.
+ * The shell supports basic command execution along with built-in functions
+ * like 'exit' and 'env'.
+ *
+ * Return: Returns 0 on normal exit,
+ * and the status of the last command executed if terminated by a command
+ * or error.
  */
 
 int main(int ac __attribute__((unused)),
@@ -17,37 +28,42 @@ int main(int ac __attribute__((unused)),
 		char **env)
 {
 	ssize_t read;
-	char *buffer = NULL;
+	char *buffer = NULL, **tokens;
 	size_t len = 0;
 	const char *delims = " \n\t";
-	char **tokens;
 	int last_command_status = 0;
-	bool is_interactive = isatty(STDIN_FILENO); /*si es verdadero es interactivo*/
+	/* if true it is interactive */
+	bool is_interactive = isatty(STDIN_FILENO);
 
 	while (true)
 	{
 		if (is_interactive)
-			printf("#cisfun$ "); /*prompt*/
-
+			/* prompt */
+			printf("#cisfun$ ");
 		read = getline(&buffer, &len, stdin);
-		if (read == -1) /* EOF o error*/
+		/* EOF or error */
+		if (read == -1)
 		{
-			printf(is_interactive ? "\n" : ""); /* si es interactive new line, no nada*/
+			/* if it is interactive, print new line, if not, print nothing */
+			printf(is_interactive ? "\n" : "");
 			free(buffer);
 			break;
 		}
-		tokens = split_strings(buffer, delims); /*crear un array de strings*/
-		if (tokens && tokens[0]) /*tokens no es NULL*/
+		/* create an array of strings */
+		tokens = split_strings(buffer, delims);
+		if (tokens && tokens[0])
 		{
-			if (handle_command(tokens, env, buffer, &last_command_status)) /*env, exit*/
-				continue; /* cambiar?*/
-			last_command_status = execute_command(tokens, env);
+			if (handle_command(tokens, env, buffer, &last_command_status))
+				;
+			else
+				last_command_status = execute_command(tokens, env);
 		}
 		else
 		{
 			last_command_status = 0;
 		}
-		free_memory(tokens, buffer); /*limpieza*/
+		/* memory cleanup */
+		free_memory(tokens, buffer);
 		buffer = NULL;
 	}
 	return (last_command_status);
@@ -69,8 +85,7 @@ char **split_strings(const char *input, const char *delims)
 	int capacity = 10;
 	char **words = malloc(capacity * sizeof(char *));
 	int n_words = 0;
-	char *token;
-	char *input_copy;
+	char *token, *input_copy;
 
 	if (!words)
 	{
@@ -101,8 +116,9 @@ char **split_strings(const char *input, const char *delims)
 		words[n_words++] = strdup(token);
 		token = strtok(NULL, delims);
 	}
+	/* memory setting for NULL */
 	words = _realloc(words, n_words * sizeof(char *),
-			(n_words + 1) * sizeof(char *)); /*ajuste de memoria para NULL*/
+			(n_words + 1) * sizeof(char *));
 	words[n_words] = NULL;
 	free(input_copy);
 	return (words);
